@@ -1,6 +1,7 @@
 use std::net::TcpListener;
 
 use news::{configuration::{self, get_configuration}, startup::run};
+use sqlx::{Connection, PgConnection, PgPool};
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
     let configuration = get_configuration().expect("Failed to read configuration.");
@@ -8,8 +9,11 @@ async fn main() -> std::io::Result<()> {
 
     let listener = TcpListener::bind(address)
 .expect("Failed to bind random port");
+    let connection_pool = PgPool::connect(&configuration.database.connection_string())
+    .await
+    .expect("Failed to connect to Postgres.");
 
-    run(listener)?.await
+    run(listener,connection_pool)?.await
 }
   
 
