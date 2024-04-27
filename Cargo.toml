@@ -13,6 +13,10 @@ rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 [dependencies]
 actix-web = "4"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+reqwest = "0.11"
+serde = { version = "1", features = ["derive"]}
+
+
 
 [lib]
 path = "src/lib.rs"
